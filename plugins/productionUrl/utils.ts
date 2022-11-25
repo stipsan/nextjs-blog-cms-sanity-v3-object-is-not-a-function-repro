@@ -15,7 +15,9 @@ export async function getSecret(
     // Use a TTL of 1 hour when reading the secret, while using a 30min expiry if `createIfNotExists` is defined to avoid a race condition where
     // a preview pane could get a Secret and use it just as it expires. Twice the TTL gives a wide margin to ensure that when the secret is read
     // it's recent enough to be valid no matter if it's used in an iframe URL, or a "Open Preview" URL.
-    query(createIfNotExists ? 60 * 30 : 60 * 60),
+    // query(createIfNotExists ? 60 * 30 : 60 * 60),
+    // TODO intentionally changed TTL to 1 week to make it easier to create a reproduction
+    query(60 * 60 * 24 * 7),
     { id }
   )
   if (!secret && createIfNotExists) {
